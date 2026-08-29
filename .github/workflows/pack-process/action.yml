@@ -38,6 +38,18 @@ runs:
             cp -fp $IMAGE_DIR/Image tmp
             echo "Found Image !"
 
+          elif [[ -f "$IMAGE_DIR/zImage-dtb" ]]; then
+            cp -fp $IMAGE_DIR/zImage-dtb tmp
+            echo "Found zImage-dtb !"
+
+          elif [[ -f "$IMAGE_DIR/zImage" ]]; then
+            cp -fp $IMAGE_DIR/zImage tmp
+            echo "Found zImage !"
+
+          else
+            echo "[-] Could not find a kernel image to package."
+            false
+
           fi
 
           if [[ -f "$IMAGE_DIR/dtbo.img" ]]; then
@@ -129,6 +141,20 @@ runs:
             rm -f out/kernel
             cp -fp $IMAGE_DIR/Image out/kernel
             echo "Found Image !"
+
+          elif [[ -f "$IMAGE_DIR/zImage-dtb" ]]; then
+            rm -f out/kernel
+            cp -fp $IMAGE_DIR/zImage-dtb out/kernel
+            echo "Found zImage-dtb !"
+
+          elif [[ -f "$IMAGE_DIR/zImage" ]]; then
+            rm -f out/kernel
+            cp -fp $IMAGE_DIR/zImage out/kernel
+            echo "Found zImage !"
+
+          else
+            echo "[-] Could not find a kernel image to package."
+            false
 
           fi
 
