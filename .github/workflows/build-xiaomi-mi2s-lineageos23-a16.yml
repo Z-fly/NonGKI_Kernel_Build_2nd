@@ -97,7 +97,9 @@ jobs:
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_NOHASHDIR: "true"
-      CCACHE_HARDLINK: "false"
+      # ccache treats CCACHE_HARDLINK as a presence-only legacy boolean; use
+      # the inverse variable when hard links must be disabled.
+      CCACHE_NOHARDLINK: "true"
 
     steps:
       - name: ⏰ Checkout repository
