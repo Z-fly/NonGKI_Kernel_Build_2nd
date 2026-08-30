@@ -31,6 +31,12 @@ echo "Current susfs patch version:$PATCH_LEVEL"
 
 for i in "${patch_files[@]}"; do
 
+    if [ ! -f "$i" ]; then
+        echo "[-] $i does not exist in this kernel, skipped."
+        echo "======================================"
+        continue
+    fi
+
     if grep -q "ksu_handle" "$i"; then
         echo "[-] Warning: $i contains KernelSU"
         echo "[+] Code in here:"

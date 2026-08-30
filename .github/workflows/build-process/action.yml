@@ -111,6 +111,19 @@ runs:
             fi
           fi
 
+          # CONFIG_MODVERSIONS in older Kbuild versions compiles some objects
+          # to .tmp_*.o and then moves them over the final object. If ccache
+          # returns both paths as hard links to the same cache entry, mv fails
+          # with "are the same file". Keep ccache enabled, but force copy mode
+          # for this configuration.
+          if grep -q '^CONFIG_MODVERSIONS=y$' out/.config; then
+            if [[ "${CCACHE_HARDLINK:-}" == "true" ]]; then
+              echo "[-] Disabling ccache hard links for CONFIG_MODVERSIONS."
+            fi
+            unset CCACHE_HARDLINK
+            export CCACHE_NOHARDLINK=true
+          fi
+
           # KPM Detect
           if [[ "${{ env.KPM_ENABLE }}" == "true" ]] && [[ "${{ env.KPM_INLINE }}" == "true" ]]; then
             if grep -q "CONFIG_KALLSYMS_ALL=y" "out/.config"; then
