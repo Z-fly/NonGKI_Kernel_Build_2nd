@@ -97,7 +97,9 @@ jobs:
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_NOHASHDIR: "true"
-      CCACHE_HARDLINK: "false"
+      # Preserve the upstream cache mode during setup. build-process disables
+      # hard links only when the generated config enables CONFIG_MODVERSIONS.
+      CCACHE_HARDLINK: "true"
 
     steps:
       - name: ⏰ Checkout repository
